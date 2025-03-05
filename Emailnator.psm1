@@ -67,11 +67,12 @@ class EmailNator {
   [void] Initialize([hashtable]$Cookies, [hashtable]$Headers, [bool]$Domain, [bool]$Plus, [bool]$Dot, [bool]$GoogleMail) {
     # --- Token and Cookie Acquisition (like TempEmail.py) ---
     $initialHeaders = @{
-      "User-Agent" = [Net.WebClient]::new().Headers['User-Agent'] #Get a default user agent
+      "User-Agent" = [Microsoft.PowerShell.Commands.PSUserAgent].GetMembers('Static, NonPublic').Where{ $_.Name -eq 'UserAgent' }.GetValue($null, $null) #Get default user agent ie (Net.WebClient).Headers['User-Agent']
       "Accept"     = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
     }
     try {
-      $initialResponse = Invoke-WebRequest -Uri "https://www.EmailNator.com/" -Headers $initialHeaders -UseBasicParsing # UseBasicParsing avoids IE dependency
+      $initialResponse = Invoke-WebRequest -Uri "https://www.EmailNator.com/" -Headers $initialHeaders -UseBasicParsing -SkipHttpErrorCheck
+      $initialResponse | Select-Object @{l = 'Status'; e = { $_.StatusDescription } }, @{l = 'Code'; e = { $_.StatusCode } } | Format-List | Out-String | Write-Host -f Yellow
       $this._token = ($initialResponse.Headers.'Set-Cookie' | Select-String -Pattern "XSRF-TOKEN=([^;]+)").Matches.Groups[1].Value.SubString(0, 339) + "="
 
       # Update cookies with the ones from the initial request.
