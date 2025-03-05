@@ -3,7 +3,6 @@
 
 🔥 Blazingly fast PowerShell thingy for using Emailnator temporary email service
 
-
 [![Build Module](https://github.com/chadnpc/Emailnator/actions/workflows/build_module.yaml/badge.svg)](https://github.com/chadnpc/Emailnator/actions/workflows/build_module.yaml)
 [![Downloads](https://img.shields.io/powershellgallery/dt/Emailnator.svg?style=flat&logo=powershell&color=blue)](https://www.powershellgallery.com/packages/Emailnator)
 
