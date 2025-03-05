@@ -56,7 +56,9 @@ class EmailNator {
   hidden [string] $_token
   hidden [WebRequestSession] $_webSession
 
-  EmailNator() {}
+  EmailNator() {
+    $this.Initialize($null, $null, $true, $true, $true, $true)
+  }
   EmailNator([hashtable]$Cookies, [hashtable]$Headers, [bool]$Domain, [bool]$Plus, [bool]$Dot, [bool]$GoogleMail) {
     $this.Initialize($Cookies, $Headers, $Domain, $Plus, $Dot, $GoogleMail)
   }
